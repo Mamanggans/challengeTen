@@ -23,11 +23,22 @@ func NewProductHandler(productService service.ProductService) productHandler {
 	}
 }
 
+// CreateNewProduct godoc
+// @Tags products
+// @Description Create New Product Data
+// @ID create-new-product
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
+// @Param RequestBody body dto.NewProductRequest true "request body json"
+// @Success 201 {object} dto.NewProductRequest
+// @Router /products [post]
+
 func (m productHandler) CreateProduct(c *gin.Context) {
 	var productRequest dto.NewProductRequest
 
 	if err := c.ShouldBindJSON(&productRequest); err != nil {
-		errBindJson := errs.NewUnprocessibleEntityError("invalid request body, please try again")
+		errBindJson := errs.NewUnprocessibleEntityError("invalid request body please try again")
 
 		c.JSON(errBindJson.Status(), errBindJson)
 		return
